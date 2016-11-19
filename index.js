@@ -53,7 +53,17 @@ app.post('/api/product', (req, res) => {
 	})
 })
 
-app.put('/api/product/:id', (req, res) => {
+app.delete('/api/product/:id', (req, res) => {
+	let productId = req.params.productId
+
+	Product.findById(productId, (err, product) =>{
+		if (err) return res.status(500).send({message: `Error al borrar el producto: ${err}`})
+
+		Product.remove(err => {
+			if (err) res.status(500).send({message: `Error al borrar el producto: ${err}`})
+			res.status(200).send({message: 'El producto ha sido eliminado'})
+		})
+	})
 
 })
 
