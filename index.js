@@ -4,6 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const Product = require('./models/products');
+
 const app = express ();
 const port = process.env.port || 3000;
 
@@ -18,8 +20,24 @@ app.get('/api/product/:id', (req, res) =>{
 })
 
 app.post('/api/product', (req, res) => {
+	console.log('POST /api/product')
 	console.log(req.body)
-	res.send(200, {message: 'El producto se ha recibido'})
+
+	let product = new Product()
+
+	product.name = req.body.name
+	product.price = req.body.price
+	product.picture = req.body.picture
+	product.category = req.body.category
+	product.description = req.body.description
+
+	product.save((err, productStored) => {
+		if (err) { res.status(500).send({message: 'Error al guardar en la base de datos'})}
+		else{
+
+			res.status(200).send({ productStored })
+		}
+	})
 })
 
 app.put('/api/product/:id', (req, res) => {
