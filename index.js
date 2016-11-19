@@ -16,7 +16,17 @@ app.get('/api/product', (req, res) => {
 	res.status(200).send({products: []})
 })
 
-app.get('/api/product/:id', (req, res) =>{
+app.get('/api/product/:productId', (req, res) =>{
+
+	let productId = req.params.productId
+
+	Product.findById(productId, (err, product) =>{
+		if (err) return res.status(500).send({message: `Error al conectar a la base de datos: ${err}`})
+		if(!product) return res.status(404).send({message: `El producto no existe`})
+
+		res.status(200).send(product)
+	})
+
 })
 
 app.post('/api/product', (req, res) => {
@@ -32,11 +42,9 @@ app.post('/api/product', (req, res) => {
 	product.description = req.body.description
 
 	product.save((err, productStored) => {
-		if (err) { res.status(500).send({message: 'Error al guardar en la base de datos'})}
-		else{
+		if (err) return res.status(500).send({message: 'Error al guardar en la base de datos'})
 
-			res.status(200).send({ productStored })
-		}
+		res.status(200).send({ productStored })
 	})
 })
 
