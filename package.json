@@ -1,0 +1,11 @@
+{
+  "name": "node-api-rest",
+  "version": "1.0.0",
+  "description": "Node.js and Express API RESTful project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Keily Salinas",
+  "license": "MIT"
+}
